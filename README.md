@@ -46,7 +46,7 @@ Now you want to create GUI for setting these parameters and call the parabola-pl
 
 ### 1. Create the function that will be called from the GUI
 
-This function would be a wrapping of your original code, with minimal changes:
+Wrap your code as follows:
 
 ```
 function GUI_test_proc(params)
@@ -62,6 +62,16 @@ function GUI_test_proc(params)
 
 end
 ```
+
+The changes you should make are minimal:
+* Provide the function header
+* Replace the parameter declaration by '''unpack_params(params)'''
+
+The function that wraps your code will be called from the GUI (see the next step). Parameter values will be passed via the argument params.
+The call of '''unpack_params(params)''' will create parameter variables (with the appropriate names and values) in the local context, as they were in the original code.
+
+**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within GUI_test_proc() or unpack the parameters manually inside the body of GUI_test_proc()**
+
 
 ### 2. Create the function or script that will open the GUI window
 
