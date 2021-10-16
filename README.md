@@ -91,7 +91,7 @@ See the code in: */example/GUI_test_proc.m*
 
 See the full code in: */example/GUI_test_open.m*
 
-#### 2.1 Define GUI elemets that correspond to the required parameters
+### 2.1 Define GUI elemets that correspond to the required parameters
 
 The elements will be organized into a 2-d matrix.
 First, you should define the number of GUI elements by both axes:
@@ -138,7 +138,7 @@ The parameter value in the field will be multiplied by *1/255* before passing to
 {'LIST:line_type', {'Solid', 'Dashed'}}
 ```
 
-#### 2.2 Provide the name of the function to be called 
+### 2.2 Provide the name of the function to be called 
 
 It is the name of the function you have created at the step 1.
 
@@ -146,7 +146,7 @@ It is the name of the function you have created at the step 1.
 inner_proc = @GUI_test_proc;
 ```
 
-* **Set the path of the folder to save and load parameter values**
+### 2.3 Set the path of the folder to save and load parameter values
 
 ```
 dirpath_par = fileparts(mfilename('fullpath'));
@@ -156,13 +156,19 @@ if ~exist(dirpath_par, 'dir')
 end
 ```
 
-* **Set whether the function should be called automatically after any parameter change**
+This code creates a subfolder */GUI_PARAMS/<script_name>* in the folder that contains the GUI-creating script, where *<script_name>* is the name of this script. 
+In this specific example, the subfolder path will be:
+*/example/GUI_PARAMS/GUI_test_open*
+You are free to set any *dirpath_par* you want.
+
+
+### 2.4 Set whether the function should be called automatically after any parameter change
 
 ```
 need_autorun = 1;
 ```
 
-* **Create the GUI window**
+### 2.5 Create the GUI window
 
 ```
 % Name of the GUI window (you can change it)
