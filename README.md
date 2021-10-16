@@ -28,7 +28,13 @@ a2 = -1;
 R = 255;
 G = 0;
 B = 0;
-style = '--';	
+line_type = 'Solid';	
+
+if strcmp(line_type, 'Solid')
+  style = '-';
+elseif strcmp(line_type, 'Dashed')
+  style = '--';
+end
 
 x = linspace(-3, 3, 500);       % uniformly spreaded x-values
 y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
@@ -40,7 +46,7 @@ plot(x, y, style, 'Color', [R,G,B]);
 The parameters are:
 - coefficients: *a0, a1, a2*
 - line color components: *R, G, B*
-- line style
+- line type (solid or dashed): *line_type*
 
 Now you want to create GUI for setting these parameters and call the parabola-plotting code from this GUI.
 
@@ -53,6 +59,12 @@ function GUI_test_proc(params)
 
   % Get parameters passed from the GUI and create local variables with the same names and values
   unpack_params(params);
+  
+  if strcmp(line_type, 'Solid')
+    style = '-';
+  elseif strcmp(line_type, 'Dashed')
+    style = '--';
+  end
 
   x = linspace(-3, 3, 500);       % uniformly spreaded x-values
   y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
@@ -64,18 +76,20 @@ end
 ```
 
 The changes you should make are minimal:
-* Provide the appropriate function header
-* Replace the parameter declaration by *unpack_params(params)*
+- Provide the appropriate function header
+- Replace the parameter declaration by *unpack_params(params)*
 
 The function that wraps your code will be called from the GUI (see the next step). Parameter values will be passed via the argument *params*.
 The call of *unpack_params(params)* will create parameter variables (with the appropriate names and values) in the local context, as they were in the original code.
 
-**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within *GUI_test_proc()* or unpack the parameters manually inside the body of *GUI_test_proc()* **
+See the code in: */example/GUI_test_proc.m*
+
+**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within *GUI_test_proc()* or unpack the parameters manually inside the body of _GUI_test_proc()_.**
 
 
 ### 2. Create the function or script that will open the GUI window
 
-An example of such function is /example/GUI_test_open.m
+See the full code in: */example/GUI_test_open.m*
 
 * **Define GUI elemets that correspond to the required parameters**
 
@@ -101,7 +115,32 @@ par_descs = {...
 };
 ```
 
-* **Provide the name of the function to be called**
+Currently there are two types of parameters that you can define:
+- Numeric
+- String constants
+
+**Numeric parameters** are defined as follows:
+'''
+{'R', 1/255, 0, 10}
+'''
+
+A numeric parameter description consists of four elements:
+- Parameter name: *'R'*
+- Multiplier: *1/255*
+- Initial value: *0*
+- Increase / decrease step: *10*
+
+Each time you press up / down button near the parameter field in the GUI, its value in this field will increase / decrease by 10.
+The parameter value in the field will be multiplied by 1/255 before passing to the *GUI_test_proc()* function.
+
+**String constant parameters** are defined as follows:
+'''
+{'LIST:line_type', {'Solid', 'Dashed'}}
+'''
+
+
+
+#### - Provide the name of the function to be called ####
 
 It is the name of the function you have created at the step 1.
 
