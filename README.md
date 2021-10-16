@@ -1,5 +1,5 @@
 # param-gui-matlab
-An easy way to build a GUI window for setting parameter values and running your Matlab code with these parameters
+An easy way to create a Matlab GUI window for setting parameter values and running your code with these parameters
 
 ## Introduction
 
@@ -14,7 +14,7 @@ This tool provides an easy way to create a GUI window that contains input fields
 
 Simply download the code and add it to the Matlab path.
 
-## Usage
+## Attaching GUI to your code
 
 Consider that you have a piece of code that plots a quadratic parabola:
 
@@ -38,8 +38,8 @@ plot(x, y, style, 'Color', [R,G,B]);
 ```
 
 The parameters are:
-- coefficients: a0, a1, a2
-- line color components: R, G, B
+- coefficients: *a0, a1, a2*
+- line color components: *R, G, B*
 - line style
 
 Now you want to create GUI for setting these parameters and call the parabola-plotting code from this GUI.
@@ -64,13 +64,13 @@ end
 ```
 
 The changes you should make are minimal:
-* Provide the function header
-* Replace the parameter declaration by '''unpack_params(params)'''
+* Provide the appropriate function header
+* Replace the parameter declaration by *unpack_params(params)*
 
-The function that wraps your code will be called from the GUI (see the next step). Parameter values will be passed via the argument params.
-The call of '''unpack_params(params)''' will create parameter variables (with the appropriate names and values) in the local context, as they were in the original code.
+The function that wraps your code will be called from the GUI (see the next step). Parameter values will be passed via the argument *params*.
+The call of *unpack_params(params)* will create parameter variables (with the appropriate names and values) in the local context, as they were in the original code.
 
-**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within GUI_test_proc() or unpack the parameters manually inside the body of GUI_test_proc()**
+**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within *GUI_test_proc()* or unpack the parameters manually inside the body of *GUI_test_proc()* **
 
 
 ### 2. Create the function or script that will open the GUI window
