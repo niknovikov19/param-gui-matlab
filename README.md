@@ -91,7 +91,7 @@ See the code in: */example/GUI_test_proc.m*
 
 See the full code in: */example/GUI_test_open.m*
 
-* **Define GUI elemets that correspond to the required parameters**
+#### 2.1 Define GUI elemets that correspond to the required parameters
 
 The elements will be organized into a 2-d matrix.
 First, you should define the number of GUI elements by both axes:
@@ -120,9 +120,9 @@ Currently there are two types of parameters that you can define:
 - String constants
 
 **Numeric parameters** are defined as follows:
-'''
+```
 {'R', 1/255, 0, 10}
-'''
+```
 
 A numeric parameter description consists of four elements:
 - Parameter name: *'R'*
@@ -130,17 +130,15 @@ A numeric parameter description consists of four elements:
 - Initial value: *0*
 - Increase / decrease step: *10*
 
-Each time you press up / down button near the parameter field in the GUI, its value in this field will increase / decrease by 10.
-The parameter value in the field will be multiplied by 1/255 before passing to the *GUI_test_proc()* function.
+Each time you press up / down button near the parameter field in the GUI, its value in this field will increase / decrease by *10*.
+The parameter value in the field will be multiplied by *1/255* before passing to the *GUI_test_proc()* function.
 
 **String constant parameters** are defined as follows:
-'''
+```
 {'LIST:line_type', {'Solid', 'Dashed'}}
-'''
+```
 
-
-
-#### - Provide the name of the function to be called ####
+#### 2.2 Provide the name of the function to be called 
 
 It is the name of the function you have created at the step 1.
 
