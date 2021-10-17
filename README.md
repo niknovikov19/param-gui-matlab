@@ -53,9 +53,9 @@ y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
 
 % Line style
 if strcmp(line_type, 'Solid')
-  style = '-';
+	style = '-';
 elseif strcmp(line_type, 'Dashed')
-  style = '--';
+	style = '--';
 end
 
 % Plot
@@ -86,9 +86,9 @@ function GUI_test_proc(params)
 
 	% Line style
 	if strcmp(line_type, 'Solid')
-	  style = '-';
+		style = '-';
 	elseif strcmp(line_type, 'Dashed')
-	  style = '--';
+		style = '--';
 	end
 
 	% Plot
