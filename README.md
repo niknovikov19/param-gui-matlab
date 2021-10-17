@@ -3,26 +3,29 @@ An easy way to create a Matlab GUI window for setting parameter values and runni
 
 ## Introduction
 
-In certain situations, you may have a script or function that performs an algorithm with several numeric parameters, and you want to explore its behavior with various parameter combinations. Manually changing parameter values and re-running the code could quickly become annoying. Furthermore, you could find several combinations of parameter values that yield important results, which prompts a question of how to store these values.
+In certain situations, you may have a script or function that performs an algorithm with several numeric parameters, and you want to explore its behavior for various parameter combinations. Manually changing parameter values and re-running the code quickly becomes an annoying task. Furthermore, you could find several combinations of the parameter values that yield important results, which prompts a question of how to store these values.
 
 This tool provides an easy way to create a GUI window that contains input fields for the required parameters and allows to:
 - modify parameter values
 - save / load combinations of the parameter values
 - run an arbitrary function, passing the parameter values from the GUI to this function
 
-The scheme below summarizes the functioning of the tool.
+The scheme below summarizes the functioning of the tool:
+<br>
+<br>
 
 ![image](https://user-images.githubusercontent.com/52497332/137608006-1829a5e0-a635-48e0-8041-508e982a015f.png)
 
-You should prepare two functions:
-- The first one creates the GUI window (we will call it *GUI_open()*) 
-- The second one contains the code that should be executed (we will call it *GUI_proc()*)
+There are two functions that do all the job:
+- The first one, *GUI_open()*, creates the GUI window
+- The second one, *GUI_proc()*, contains the main code that should be executed
 
-*GUI_open() creates the GUI window, in which you can set the parameter values. When you press the "Run" button (or change a parameter value in the real-time mode), all the parameter values are collected, and the function *GUI_proc()* is called. The parameter values collected from the GUI are passed to *GUI_proc()* via its argument. Then  *GUI_proc()* runs and generates a result that depends on the passed parameter values.
+*GUI_open()* creates the GUI window, in which you can set the parameter values. When you press the "Run" button (or change a parameter value in the real-time mode, see below), all the parameter values are collected, and the function *GUI_proc()* is called. The parameter values collected from the GUI are passed to *GUI_proc()* via its argument. Then  *GUI_proc()* runs and generates a result that depends on the passed parameter values.
 
 Parameter combinations could be saved and loaded with the corresponding buttons in the GUI window.
 
-In the provided example, *GUI_proc()* plots a parabola, and the GUI window contains the fields for entering coefficients of the parabola, as well as its color and style.
+You can find an example in the */example* folder. \
+In the provided example, *GUI_test_proc()* plots a parabola, while *GUI_test_open()* opens a GUI window containing fields for the coefficients of the parabola, as well as for its color and style.
 
 ## Installation 
 
@@ -65,7 +68,7 @@ The parameters are:
 - line color components: *R, G, B*
 - line type (solid or dashed): *line_type*
 
-Now you want to create GUI for setting these parameters and call the parabola-plotting code from this GUI.
+Now consider that you want to create a GUI for setting these parameters and calling the parabola-plotting code.
 
 ### 1. Create the function that will be called from the GUI
 
@@ -172,7 +175,7 @@ The definition consists of:
 - Parameter name with the prefix *LIST:*
 - Cell array of string constants that will become entries of a drop-down list
 
-If you want to skip a position in the layout, provide an empty cell *{}* as the corresponding element of *par_descs* array.
+**NOTE:** If you want to skip a position in the layout, provide an empty cell *{}* as the corresponding element of *par_descs* array.
 
 #### 2.2 Provide the name of the function to be called 
 
@@ -182,7 +185,7 @@ This is the name of the function you have created at the step 1. You can choose 
 inner_proc = @GUI_test_proc;
 ```
 
-#### 2.3 Set the path of the folder to save and load parameter values
+#### 2.3 Set the path of the folder used for saving and loading parameter combinations
 
 ```
 dirpath_par = fileparts(mfilename('fullpath'));
@@ -208,8 +211,7 @@ There are two possible scenarios of using this GUI:
 - The code execution is fast, and you want to see the result in the real-time as you vary the parameters. Set *need_autorun = 1*.
 - The code takes time to run, and you want to set all the parameters before running the code. Set *need_autorun = 0*.
 
-If *need_autorun = 1*, the function *GUI_test_proc()* is called automatically each time you change any parameter.
-
+If *need_autorun = 1*, the function *GUI_test_proc()* is called automatically each time you change any parameter. \
 If *need_autorun = 0*, the function *GUI_test_proc()* is called only when you press the "Run" button.
 
 
@@ -237,7 +239,7 @@ The main code is executed either on parameter change (if *need_autorun = 1*) or 
 You can save the current combination of parameter values by pressing the "Save" button. \
 A previously saved parameter combination could be loaded into the GUI using the "Load" button.
 
-"Save" and "Load" buttons open a file selection dialog, with the current folder given by the *dirpath_par* variable in the script.
+"Save" and "Load" buttons open a file selection dialog, with the default folder given by the *dirpath_par* variable in the script.
 
 
 
