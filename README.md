@@ -3,12 +3,26 @@ An easy way to create a Matlab GUI window for setting parameter values and runni
 
 ## Introduction
 
-In certain situations, you may have a script or function that performs an algorithm with several numeric parameters, and you want to explore its behavior with various parameter combinations. Manually changing parameter values and re-running the code could quickly become an annoying. Furthermore, you could find several combinations of parameter values that yield important results, which prompts a question of how to store these values.
+In certain situations, you may have a script or function that performs an algorithm with several numeric parameters, and you want to explore its behavior with various parameter combinations. Manually changing parameter values and re-running the code could quickly become annoying. Furthermore, you could find several combinations of parameter values that yield important results, which prompts a question of how to store these values.
 
 This tool provides an easy way to create a GUI window that contains input fields for the required parameters and allows to:
 - modify parameter values
 - save / load combinations of the parameter values
 - run an arbitrary function, passing the parameter values from the GUI to this function
+
+The scheme below summarizes the functioning of the tool.
+
+![image](https://user-images.githubusercontent.com/52497332/137608006-1829a5e0-a635-48e0-8041-508e982a015f.png)
+
+You should prepare two functions:
+- The first one creates the GUI window (we will call it *GUI_open()*) 
+- The second one contains the code that should be executed (we will call it *GUI_proc()*)
+
+*GUI_open() creates the GUI window, in which you can set the parameter values. When you press the "Run" button (or change a parameter value in the real-time mode), all the parameter values are collected, and the function *GUI_proc()* is called. The parameter values collected from the GUI are passed to *GUI_proc()* via its argument. Then  *GUI_proc()* runs and generates a result that depends on the passed parameter values.
+
+Parameter combinations could be saved and loaded with the corresponding buttons in the GUI window.
+
+In the provided example, *GUI_proc()* plots a parabola, and the GUI window contains the fields for entering coefficients of the parabola, as well as its color and style.
 
 ## Installation 
 
