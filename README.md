@@ -30,15 +30,18 @@ G = 0;
 B = 0;
 line_type = 'Solid';	
 
+% Prepare the data to plot
+x = linspace(-3, 3, 500);       % uniformly spreaded x-values
+y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
+
+% Line style
 if strcmp(line_type, 'Solid')
   style = '-';
 elseif strcmp(line_type, 'Dashed')
   style = '--';
 end
 
-x = linspace(-3, 3, 500);       % uniformly spreaded x-values
-y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
-
+% Plot
 figure(100);
 plot(x, y, style, 'Color', [R,G,B]);
 ```
@@ -57,20 +60,23 @@ Wrap your code as follows:
 ```
 function GUI_test_proc(params)
 
-  % Get parameters passed from the GUI and create local variables with the same names and values
-  unpack_params(params);
-  
-  if strcmp(line_type, 'Solid')
-    style = '-';
-  elseif strcmp(line_type, 'Dashed')
-    style = '--';
-  end
+	% Get parameters passed from the GUI and create local variables with the same names and values
+	unpack_params(params);
 
-  x = linspace(-3, 3, 500);       % uniformly spreaded x-values
-  y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
+	% Prepare the data to plot
+	x = linspace(-3, 3, 500);       % uniformly spreaded x-values
+	y = a0 + a1 * x + a2 * x.^2;    % y-values are given by the quadratic formula
 
-  figure(100);
-  plot(x, y, style, 'Color', [R,G,B]);
+	% Line style
+	if strcmp(line_type, 'Solid')
+	  style = '-';
+	elseif strcmp(line_type, 'Dashed')
+	  style = '--';
+	end
+
+	% Plot
+	figure(100);
+	plot(x, y, style, 'Color', [R,G,B]);
 
 end
 ```
@@ -84,7 +90,7 @@ The call of *unpack_params(params)* will create parameter variables (with the ap
 
 See the code in: */example/GUI_test_proc.m*
 
-**NOTE: The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within *GUI_test_proc()* or unpack the parameters manually inside the body of _GUI_test_proc()_.**
+**NOTE:** The mechanism used in unpack_params() is incompatible with nested functions. So you should either avoid nested functions within *GUI_test_proc()* or unpack the parameters manually inside the body of *GUI_test_proc()*.
 
 
 ### 2. Create the function or script that will open the GUI window
@@ -105,10 +111,10 @@ Next, define the elements themselves:
 
 ```
 par_descs = {...
-	{'a0', 1, 4, 0.1},...						            % First column
+	{'a0', 1, 4, 0.1},...				% First column
 	{'a1', 1, 0, 0.1},...
 	{'a2', 1, 0, 0.1},...
-	{'R', 1/255, 0, 10},...						          % Second column
+	{'R', 1/255, 0, 10},...				% Second column
 	{'G', 1/255, 0, 10},...
 	{'B', 1/255, 255, 10},...
 	{'LIST:line_type', {'Solid', 'Dashed'}}...	% Third column
@@ -117,8 +123,7 @@ par_descs = {...
 
 This specific definition will result in the following layout:
 
-![image](https://user-images.githubusercontent.com/52497332/137603782-c6fa5677-4a33-4360-9e84-74a93b5cebdc.png)
-
+![image](https://user-images.githubusercontent.com/52497332/137606132-63a210ad-c8fc-456c-9a5a-104cbcb9881e.png)
 
 Currently there are two types of parameters that you can define:
 - Numeric
@@ -153,9 +158,11 @@ The definition consists of:
 - Parameter name with the prefix *LIST:*
 - Cell array of string constants that will become entries of a drop-down list
 
+If you want to skip a position in the layout, provide an empty cell *{}* as the corresponding element of *par_descs* array.
+
 #### 2.2 Provide the name of the function to be called 
 
-It is the name of the function you have created at the step 1.
+This is the name of the function you have created at the step 1. You can choose any name you want.
 
 ```
 inner_proc = @GUI_test_proc;
@@ -171,17 +178,26 @@ if ~exist(dirpath_par, 'dir')
 end
 ```
 
-This code creates a subfolder */GUI_PARAMS/<script_name>* in the folder that contains the GUI-creating script, where *<script_name>* is the name of this script.<br>
-In this specific example, the subfolder path will be:<br>
-*/example/GUI_PARAMS/GUI_test_open*<br>
-You are free to set any *dirpath_par* you want.
+This code creates a subfolder */GUI_PARAMS/<script_name>* in the folder that contains the GUI-creating script (where *<script_name>* is the name of this script).
 
+In this specific example, the subfolder path will be: */example/GUI_PARAMS/GUI_test_open*
+
+You are free to set any value of *dirpath_par* you want.
 
 #### 2.4 Set whether the function should be called automatically after any parameter change
 
 ```
 need_autorun = 1;
 ```
+
+There are two possible scenarios of using this GUI:
+- The code execution is fast, and you want to see the result in the real-time as you vary the parameters. Set *need_autorun = 1*.
+- The code takes time to run, and you want to set all the parameters before running the code. Set *need_autorun = 0*.
+
+If *need_autorun = 1*, the function *GUI_test_proc()* is called automatically each time you change any parameter.
+
+If *need_autorun = 0*, the function *GUI_test_proc()* is called only when you press the "Run" button.
+
 
 #### 2.5 Create the GUI window
 
@@ -193,3 +209,21 @@ win_name = mfilename;
 create_param_GUI(par_descs, inner_proc, num_GUI_elem_x, num_GUI_elem_y,...
 	dirpath_par, need_autorun, win_name);
 ```
+
+## GUI usage
+
+After you run *GUI_test_open.m* script or function, the GUI window will open: 
+
+![image](https://user-images.githubusercontent.com/52497332/137603782-c6fa5677-4a33-4360-9e84-74a93b5cebdc.png)
+
+Changing the parameter values is intuitive - either via edit boxes or by pressing up / down buttons (for numeric parameters), or using drop-down lists (for string constant parameters). 
+
+The main code is executed either on parameter change (if *need_autorun = 1*) or by pressing the "Run" button (if *need_autorun = 0*).
+
+You can save the current combination of parameter values by pressing the "Save" button. \
+A previously saved parameter combination could be loaded into the GUI using the "Load" button.
+
+"Save" and "Load" buttons open a file selection dialog, with the current folder given by the *dirpath_par* variable in the script.
+
+
+
